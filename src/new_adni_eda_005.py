@@ -46,9 +46,8 @@ if platform.system() == 'Windows':
     path_to_save= 'path/dfs_saved/'
     
 else:
-    adni= pd.read_csv('path/adni_merge_data_from_R.csv')
-    path_to_save= 'path/dfs_to_store/'
-
+    adni= pd.read_csv('/path/adni_merge_data_from_R.csv')
+    path_to_save= '/path/dfs_to_store/'
 
 
 # Filter rows where 'VISCODE' is 'bl' and 'DX' is either 'CN' or 'MCI'
@@ -134,93 +133,10 @@ from datetime import datetime
 timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
 
 # Append the timestamp to the filename
-#path_to_save= 'path/dfs_saved/'
-#path_to_save= 'path/dfs_to_store/'
 filename = path_to_save+ f'data_ADNI_{timestamp}.csv'
 
 # Save the DataFrame to a CSV file
 results_df.to_csv(filename, index=False)
-
-# filename2 = path_to_save+ 'missy_20240514_125510.csv'
-# df_to_plt= pd.read_csv(filename)
-
-
-
-#%% Figure code
-
-# import math
-# from sklearn.experimental import enable_iterative_imputer
-# import numpy as np
-# from sklearn.experimental import enable_hist_gradient_boosting
-# from sklearn.ensemble import HistGradientBoostingClassifier, ExtraTreesRegressor, RandomForestClassifier
-# from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
-# from sklearn.svm import SVC
-# from sklearn.calibration import CalibratedClassifierCV
-# from sklearn.impute import SimpleImputer, KNNImputer, IterativeImputer
-# from sklearn.model_selection import train_test_split
-# from sklearn.metrics import roc_auc_score, accuracy_score
-# import pandas as pd
-# import matplotlib.pyplot as plt
-# import seaborn as sns
-# from sklearn.model_selection import KFold
-# from datetime import datetime
-# # Get current time and format it as a string
-# timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-
-# path_to_save_fig= 'path/figs_saved/'
-# filename_fig1 = path_to_save_fig+'with_wo_comp_'+ f'adni_{timestamp}.svg'
-# filename_fig2 = path_to_save_fig+'with_imputation_'+ f'adni_{timestamp}.svg'
-# filename_fig11 = path_to_save_fig+'with_wo_comp_'+ f'adni_{timestamp}.png'
-# filename_fig22 = path_to_save_fig+'with_imputation_'+ f'adni_{timestamp}.png'
-
-# path_to_load ='path\dfs_to_store\data_ADNI_20240911_222227.csv'
-# df_to_plt= pd.read_csv(path_to_load)
-
-# imputers = {
-#     'complete_case': None,
-#     'mean': SimpleImputer(strategy='mean'),
-#     'median': SimpleImputer(strategy='median'),
-#     'knn': KNNImputer(n_neighbors=2),
-#     'mice': IterativeImputer(random_state=0),
-#     'tree': IterativeImputer(ExtraTreesRegressor(n_estimators=10, random_state=0))
-# }
-
-# fig, axes = plt.subplots(ncols=1, nrows=len(imputers), figsize=(10, 20))
-
-# for i, imputer in enumerate(imputers.keys()):
-#     # Filter results for the current imputer
-#     df_imputer = df_to_plt[df_to_plt['Imputer'] == imputer]
-    
-#     # Create a boxplot for AUC
-#     sns.boxplot(ax=axes[i], x='Missingness', y='AUC_wo', hue='Classifier_Type', data=df_imputer)
-#     axes[i].set_title(f'ADNI AUC with {imputer} Imputation')
-#     axes[i].legend(loc='upper right')
-#     axes[i].axhline(0.75, color='blue')  # Add a horizontal blue line at AUC 0.5
-#     axes[i].grid(True)  # Add a grid
-
-# plt.tight_layout()
-# plt.savefig(filename_fig1, format='svg')
-# plt.savefig(filename_fig11, format='png')
-# plt.show()
-
-# fig, axes = plt.subplots(ncols=1, nrows=len(imputers), figsize=(10, 20))
-
-# for i, imputer in enumerate(imputers.keys()):
-#     # Filter results for the current imputer
-#     df_imputer = df_to_plt[df_to_plt['Imputer'] == imputer]
-    
-#     # Create a boxplot for AUC
-#     sns.boxplot(ax=axes[i], x='Missingness', y='AUC', hue='Classifier_Type', data=df_imputer)
-#     axes[i].set_title(f'ADNI AUC with {imputer} Imputation')
-#     axes[i].legend(loc='upper right')
-#     axes[i].axhline(0.75, color='blue')  # Add a horizontal blue line at AUC 0.5
-#     axes[i].grid(True)  # Add a grid
-
-# plt.tight_layout()
-# plt.savefig(filename_fig2, format='svg')
-# plt.savefig(filename_fig22, format='png')
-# plt.show()
-
 
 
 

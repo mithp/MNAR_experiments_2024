@@ -6,31 +6,41 @@ A4 data in the pipeline
 @author: mithp
 """
 import math
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
 from sklearn.experimental import enable_iterative_imputer
+import numpy as np
 from sklearn.experimental import enable_hist_gradient_boosting
 from sklearn.ensemble import HistGradientBoostingClassifier, ExtraTreesRegressor, RandomForestClassifier
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from sklearn.svm import SVC
 from sklearn.calibration import CalibratedClassifierCV
 from sklearn.impute import SimpleImputer, KNNImputer, IterativeImputer
-from sklearn.model_selection import train_test_split, KFold
+from sklearn.model_selection import train_test_split
 from sklearn.metrics import roc_auc_score, accuracy_score
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.model_selection import KFold
+import pandas as pd
+import numpy as np
+from sklearn.ensemble import HistGradientBoostingClassifier, ExtraTreesRegressor, RandomForestClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.experimental import enable_iterative_imputer
+from sklearn.impute import IterativeImputer
+from sklearn.metrics import roc_auc_score, accuracy_score
+from sklearn.model_selection import KFold
 from sklearn.preprocessing import StandardScaler
 import platform
+
 
 if platform.system() == 'Windows':
     vmri = pd.read_csv("path/A4_VMRI_PRV2.csv") # Volumetric MRI
     curated_data = pd.read_csv("path/curated_a4.csv") # combined with R scripts from csv's
-    path_to_save= 'D:/Work/a4_study/dfs_saved/'
+    path_to_save= 'path/dfs_saved/'
     
 else:
-    vmri = pd.read_csv("path/A4_VMRI_PRV2.csv") # Volumetric MRI
-    curated_data = pd.read_csv("path/curated_a4.csv") # combined with R scripts from csv's
-    path_to_save= 'path/dfs_to_store/'
+    vmri = pd.read_csv("/path/A4_VMRI_PRV2.csv") # Volumetric MRI
+    curated_data = pd.read_csv("/path/curated_a4.csv") # combined with R scripts from csv's
+    path_to_save= '/path/dfs_to_store/'
 
 
 vrmi_cols= vmri.columns[2:][:-2].to_numpy() # vmri CSV is used only to get the feature names
@@ -76,20 +86,11 @@ clf=HistGradientBoostingClassifier()
 jojo=curated_for_imputation.columns
 
 X=curated_for_imputation.drop(columns={'MRI absent', 'Amyloid eligibility','BID'}).reset_index(drop=True)
-# enc = OneHotEncoder(handle_unknown='ignore')
 y=curated_for_imputation['Amyloid eligibility'].reset_index(drop=True)
 y_one_hot=pd.get_dummies(y, drop_first=True)
 
 #%%
 from MissingnessIntroducer_v3 import ClassifierEvaluatorCV_scale_balance, ModifiedClassifierEvaluatorCV_scale_balance
-# Define your data
-# n_samples = 1000
-# n_features = 50
-# bayes_rate = 0.50
-
-# # Define the probabilities for MCAR missingness
-# #probs = [0, 0.2, 0.4, 0.8]
-# probs = [0.2]
 
 # Define the number of times the experiment is repeated
 n_repeats = 20
@@ -127,59 +128,10 @@ from datetime import datetime
 timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
 
 # Append the timestamp to the filename
-#path_to_save= 'path/dfs_to_store/'
 filename = path_to_save+ f'data_a4_study_{timestamp}.csv'
 
 # Save the DataFrame to a CSV file
 results_df.to_csv(filename, index=False)
-
-
-#%%
-# Figure plot
-
-# path_to_load ='path\dfs_to_store\data_a4_study_20240912_052102.csv'
-# from datetime import datetime
-# import seaborn as sns
-# import matplotlib.pyplot as plt
-# import pandas as pd
-# df_to_plt= pd.read_csv(path_to_load)
-
-# timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-# path_to_save_fig= 'path/figs_saved/'
-# filename_fig_svg = path_to_save_fig+'with_wo_comp_'+ f'data_a4_{timestamp}.svg'
-# filename_fig_png = path_to_save_fig+'with_wo_comp_'+ f'data_a4_{timestamp}.png'
-
-
-# #%
-# plt.figure(figsize=(8, 18))
-
-# # Create a boxplot for AUC
-# plt.subplot(2, 1, 1)
-# #sns.boxplot(x='Imputer', y='AUC', hue='Classifier_Type', data=df_to_plt)
-# sns.boxplot(x='Classifier_Type', y='AUC', hue='Imputer', data=df_to_plt)
-# plt.title('AUC with Train Test Split')
-# plt.legend(loc='upper right')
-# plt.axhline(0.72, color='blue')  # Add a horizontal blue line at AUC 0.5
-# plt.grid(True)  # Add a grid
-
-# # Create a boxplot for AUC_wo
-# plt.subplot(2, 1, 2)
-# #sns.boxplot(x='Imputer', y='AUC_wo', hue='Classifier_Type', data=df_to_plt)
-# sns.boxplot(x='Classifier_Type', y='AUC_wo', hue='Imputer', data=df_to_plt)
-# plt.title('AUC without Train Test Split')
-# plt.legend(loc='upper right')
-# plt.axhline(0.72, color='blue')  # Add a horizontal blue line at AUC 0.5
-# plt.grid(True)  # Add a grid
-
-# plt.tight_layout()
-# plt.title('Data A4 with and without data split')
-# plt.savefig(filename_fig_svg, format='svg')
-# plt.savefig(filename_fig_png, format='png')
-# plt.show()
-
-
-
-
 
 
 

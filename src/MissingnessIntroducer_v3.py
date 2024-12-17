@@ -7,11 +7,8 @@ Created on Tue Aug 13 13:54:43 2024
 
 import numpy as np
 import math
-
-import math
 from sklearn.experimental import enable_iterative_imputer
 import numpy as np
-#from sklearn.experimental import enable_hist_gradient_boosting
 from sklearn.ensemble import HistGradientBoostingClassifier, ExtraTreesRegressor, RandomForestClassifier
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis, QuadraticDiscriminantAnalysis
 from sklearn.svm import SVC
@@ -28,7 +25,6 @@ class MissingnessIntroducer:
     def __init__(self, X, y):
         self.X = X
         self.y = y
-        #self.columns = columns if columns is not None else []
 
     def introduce_missingness(self, X, mask):
         X[mask] = np.nan
@@ -145,13 +141,11 @@ class ClassifierEvaluatorCV:
       0: (HistGradientBoostingClassifier(), 'GB'),
       1: (LinearDiscriminantAnalysis(), 'LDA'),
       2: (CalibratedClassifierCV(SVC(C=0.1, kernel='linear', probability=True, random_state=1)), 'SVC'),
-      #2: (SVC(C=0.1, kernel='linear',  probability=True,random_state=1), 'SVC'),
       3: (RandomForestClassifier(max_depth=2, random_state=0), 'RF')
-      #4: (QuadraticDiscriminantAnalysis(), 'QDA')
+
     }
 
     clf, class_type = classifiers[linear_flag]
-    #kfold = KFold(n_splits=n_splits, shuffle=True)
     # Initialize StratifiedKFold
     stratified_kfold = StratifiedKFold(n_splits=n_splits, shuffle=True)
     aucs, accuracies = [], []
@@ -199,9 +193,7 @@ class ModifiedClassifierEvaluatorCV:
       0: (HistGradientBoostingClassifier(), 'GB'),
       1: (LinearDiscriminantAnalysis(), 'LDA'),
       2: (CalibratedClassifierCV(SVC(C=0.1, kernel='linear', probability=True, random_state=1)), 'SVC'),
-      #2: (SVC(C=0.1,kernel='linear',  probability=True,random_state=1), 'SVC'),
       3: (RandomForestClassifier(max_depth=2, random_state=0), 'RF')
-      #4: (QuadraticDiscriminantAnalysis(), 'QDA')
     }
 
     clf, class_type = classifiers[linear_flag]
